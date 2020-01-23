@@ -1,6 +1,6 @@
 name: Dart CI
 
-on: [push]
+on: [push, pull_request]
 
 jobs:
   build:
@@ -8,11 +8,14 @@ jobs:
     runs-on: ubuntu-latest
 
     container:
-      image:  google/dart:latest
+#      image:  google/dart:latest
+      image: cirrusci/flutter:latest
 
     steps:
     - uses: actions/checkout@v1
+    - name: Running flutter doctor
+      run: flutter doctor
     - name: Install dependencies
-      run: pub get
+      run: sudo /home/cirrus/sdks/flutter/bin/flutter pub get
     - name: Run tests
-      run: pub run test
+      run: sudo /home/cirrus/sdks/flutter/bin/flutter test
